@@ -3,6 +3,7 @@
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE="/var/log/shell-roboshop/$0.log"
+
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
