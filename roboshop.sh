@@ -6,28 +6,32 @@ ZONE_ID="Z07884672JQBJJ77AF6DD"
 DOMAIN_NAME="anilbeeraka.online"
 
 
-for instance in $@
-    do 
-        INSTANCE_ID=$(aws ec2 run-instances \
+    for instance in $@
+    do
+        INSTANCE_ID=$( aws ec2 run-instances \
         --image-id $AMI_ID \
         --instance-type "t3.micro" \
         --security-group-ids $SG_ID \
         --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
         --query 'Instances[0].InstanceId' \
-        --output text)
+        --output text )
+
         if [ $instance == "frontend" ]; then
-            IP=$(aws ec2 describe-instances \
+            IP=$(
+                aws ec2 describe-instances \
                 --instance-ids $INSTANCE_ID \
                 --query 'Reservations[].Instances[].PublicIpAddress' \
-                --output text)
+                --output text
+            )
             RECORD_NAME="$DOMAIN_NAME" # daws88s.online
         else
             IP=$(
                 aws ec2 describe-instances \
                 --instance-ids $INSTANCE_ID \
                 --query 'Reservations[].Instances[].PrivateIpAddress' \
-                --output text)
-            RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.anilbeeraka.online
+                --output text
+            )
+            RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws88s.online
         fi
 
         echo "IP Address: $IP"
@@ -56,4 +60,5 @@ for instance in $@
         '
 
         echo "record updated for $instance"
+
     done
