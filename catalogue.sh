@@ -2,14 +2,13 @@
 
 USERID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
-LOGS_FILE="/var/log/shell-roboshop/$0.log"
-SCRIPT_DIR=$PWD
-MONGODB_HOST=mongodb.anilbeeraka.online
-
+LOGS_FILE="$LOGS_FOLDER/$0.log"
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
+SCRIPT_DIR=$PWD
+MONGODB_HOST=mongodb.daws88s.online
 
 if [ $USERID -ne 0 ]; then
     echo -e "$R Please run this script with root user access $N" | tee -a $LOGS_FILE
@@ -26,7 +25,6 @@ VALIDATE(){
         echo -e "$2 ... $G SUCCESS $N" | tee -a $LOGS_FILE
     fi
 }
-
 
 dnf module disable nodejs -y &>>$LOGS_FILE
 VALIDATE $? "Disabling NodeJS Default version"
